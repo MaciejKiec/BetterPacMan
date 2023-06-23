@@ -12,10 +12,15 @@ public class Game extends JPanel implements ActionListener {
     //    private final Font smallFont = new Font("Arial", Font.BOLD,14);
     private boolean inGame;
 
+
+    private final int BLOCK_SIZE = 37;
+
     private final int PACMAN_SPEED = 6;
     private Image pac_up, pac_down, pac_left, pac_right;
     private int pacmanX, pacmanY;
     private int direction;
+
+    private Map map;
 
 
     public Game() {
@@ -29,27 +34,24 @@ public class Game extends JPanel implements ActionListener {
     }
 
     private void initGame() {
-
         inGame = true;
         pacmanX = dim.width/2;
         pacmanY = dim.height/2;
     }
 
-
     private void loadImages() {
-        pac_up = new ImageIcon("C:\\Users\\Michał\\IdeaProjects\\test\\img\\pac-up.png").getImage();
-        pac_down = new ImageIcon("C:\\Users\\Michał\\IdeaProjects\\test\\img\\pac-down.png").getImage();
-        pac_left = new ImageIcon("C:\\Users\\Michał\\IdeaProjects\\test\\img\\pac-left.png").getImage();
-        pac_right = new ImageIcon("C:\\Users\\Michał\\IdeaProjects\\test\\img\\pac-right.png").getImage();
+        pac_up = new ImageIcon("images/pacman_up.gif").getImage();
+        pac_down = new ImageIcon("images/pacman_down.gif").getImage();
+        pac_left = new ImageIcon("images/pacman_left.gif").getImage();
+        pac_right = new ImageIcon("images/pacman_right.gif").getImage();
 //        cherry = new ImageIcon("C:\\Users\\Michał\\IdeaProjects\\test\\img\\cherry.png").getImage();
-
-
     }
 
     private void initVariables() {
-        dim = new Dimension(400, 400);
+        map = new Map("lvl/level1.txt");
+        dim = new Dimension(map.width*BLOCK_SIZE, map.height*BLOCK_SIZE);
         direction = 1;
-
+        this.setSize(dim.width,dim.height);
     }
 
     @Override
@@ -59,6 +61,7 @@ public class Game extends JPanel implements ActionListener {
         g2d.setColor(Color.black);
         g2d.fillRect(0, 0, dim.width, dim.height);
 
+        map.draw(g2d, BLOCK_SIZE);
 
         if (inGame) {
         playGame(g2d);
