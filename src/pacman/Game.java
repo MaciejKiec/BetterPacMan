@@ -9,14 +9,14 @@ import java.awt.event.KeyEvent;
 
 public class Game extends JPanel implements ActionListener {
     private Dimension dim;
-    private final Font smallFont = new Font("Arial", Font.BOLD,14);
+    private final Font smallFont = new Font("Arial", Font.BOLD,16);
     private boolean inGame = false;
     private boolean dying = false;
 
     private int lives, score;
 
 
-//    private Image hearth;
+    private Image heart;
 
 
     private final int BLOCK_SIZE = 37;
@@ -48,7 +48,7 @@ public class Game extends JPanel implements ActionListener {
     }
 
     private void loadImages() {
-//        heart = new ImageIcon("images/pink_right.gif").getImage();
+        heart = new ImageIcon("images/live.gif").getImage();
     }
 
     private void initVariables() {
@@ -60,6 +60,7 @@ public class Game extends JPanel implements ActionListener {
         pink = new PinkGhost(dim.width/2,dim.height/2);
         yellow = new YellowGhost(dim.width/2,dim.height/2);
         score = 0;
+        lives = 3;
     }
 
     @Override
@@ -67,7 +68,7 @@ public class Game extends JPanel implements ActionListener {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.black);
-        g2d.fillRect(0, 0, dim.width+5, dim.height+20);
+        g2d.fillRect(0, 0, dim.width+5, dim.height+40);
 
         map.draw(g2d, BLOCK_SIZE);
         drawScore(g2d);
@@ -107,9 +108,6 @@ public class Game extends JPanel implements ActionListener {
         blue.draw(g2d, this);
         pink.draw(g2d, this);
         yellow.draw(g2d, this);
-
-
-
     }
 
     private void death() {
@@ -120,11 +118,11 @@ public class Game extends JPanel implements ActionListener {
         int SCREEN_SIZE = map.height * BLOCK_SIZE;
         g.setColor(new Color(5, 181, 79));
         String s = "Score: " + score;
-        g.drawString(s, SCREEN_SIZE / 2 + 96, SCREEN_SIZE + 16);
+        g.drawString(s, SCREEN_SIZE / 2 + 96, SCREEN_SIZE + 27);
 
-//        for (int i = 0; i < lives; i++) {
-//            g.drawImage(heart, i * 28 + 8, SCREEN_SIZE + 1, this);
-//        }
+        for (int i = 0; i < lives; i++) {
+            g.drawImage(heart, i * 40 + 10, SCREEN_SIZE + 1, this);
+        }
     }
 
 
