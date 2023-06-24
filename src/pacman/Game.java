@@ -19,7 +19,6 @@ public class Game extends JPanel implements ActionListener {
     private Image heart;
 
 
-    private final int BLOCK_SIZE = 37;
 
 
     private Pacman pacman;
@@ -53,7 +52,7 @@ public class Game extends JPanel implements ActionListener {
 
     private void initVariables() {
         map = new Map("lvl/level1.txt");
-        dim = new Dimension(map.width*BLOCK_SIZE, map.height*BLOCK_SIZE);
+        dim = new Dimension(map.width*map.BLOCK_SIZE, map.height*map.BLOCK_SIZE);
         pacman = new Pacman(dim.width/2,dim.height/2);
         red = new RedGhost(dim.width/2,dim.height/2);
         blue = new BlueGhost(dim.width/2,dim.height/2);
@@ -70,7 +69,7 @@ public class Game extends JPanel implements ActionListener {
         g2d.setColor(Color.black);
         g2d.fillRect(0, 0, dim.width+5, dim.height+40);
 
-        map.draw(g2d, BLOCK_SIZE);
+        map.draw(g2d, map.BLOCK_SIZE);
         drawScore(g2d);
 
         if (inGame) {
@@ -92,11 +91,9 @@ public class Game extends JPanel implements ActionListener {
             pacman.move();
             pacman.draw(g2d,this);
             moveGhosts(g2d);
-
+            checkMaze();
         }
 
-//        moveGhosts(g2d);
-//        checkMaze();
     }
 
     private void moveGhosts(Graphics2D g2d) {
@@ -109,13 +106,16 @@ public class Game extends JPanel implements ActionListener {
         pink.draw(g2d, this);
         yellow.draw(g2d, this);
     }
-
+    private void checkMaze(){
+        if (map.checkSquare(pacman))
+            score +=1;
+    }
     private void death() {
     }
 
     private void drawScore(Graphics2D g) {
         g.setFont(smallFont);
-        int SCREEN_SIZE = map.height * BLOCK_SIZE;
+        int SCREEN_SIZE = map.height * map.BLOCK_SIZE;
         g.setColor(new Color(5, 181, 79));
         String s = "Score: " + score;
         g.drawString(s, SCREEN_SIZE / 2 + 96, SCREEN_SIZE + 27);

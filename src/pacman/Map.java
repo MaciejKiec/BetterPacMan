@@ -9,9 +9,11 @@ import java.util.List;
 
 public class Map {
     public int width, height;
+    public final int BLOCK_SIZE = 37;
+    public int points;
     public int[][] pixels;
 
-    public Map(String filePath){
+    public Map(String filePath) {
         try {
             pixels = loadMapFromFile(filePath);
             width = pixels.length;
@@ -19,6 +21,68 @@ public class Map {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean completeCheck() {
+
+        for (var j : pixels)
+            for (var i : j)
+                if (i != 0)
+                    return false;
+        return true;
+    }
+
+    public boolean checkSquare(Entity entity) {
+        boolean point = false;
+        int xId, yId, ch, px;
+
+//        if (entity.x % BLOCK_SIZE == 0 && entity.y % BLOCK_SIZE == 0) {
+        xId = (int) entity.x / BLOCK_SIZE;
+        yId = (int) entity.y / BLOCK_SIZE;
+        ch = pixels[yId][xId];
+        if ((ch & 16) != 0 && Math.abs((float) entity.x / ((float) BLOCK_SIZE) - (float) xId) < 0.4 && Math.abs((float) entity.y / ((float) BLOCK_SIZE) - (float) yId) < 0.4) {
+            px = (ch & 15);
+            if (px == 0)
+                pixels[yId][xId] = 32;
+            else
+                pixels[yId][xId] = px;
+            point = true;
+        }
+//        System.out.println(entity.x);
+//        System.out.println(entity.y);
+//        if ((entity.direction == 1 && (int) entity.x < 0 + 5) ||
+//                    (entity.direction == 2 && (int) entity.y < 0 + 5) ||
+//                    (entity.direction == 3 && (int) entity.x > width * BLOCK_SIZE - 5) ||
+//                    (entity.direction == 4 && (int) entity.y > height * BLOCK_SIZE - 5)){
+//                System.out.println("stop");
+//                entity.go = false;
+//            }
+//        else{
+//                System.out.println("go");
+//                entity.go = true;
+//        }
+//                if (!((entity.direction == 1 && (ch & 1) != 0)
+//                        || (entity.direction == 2 && (ch & 2) != 0)
+//                        || (entity.direction == 4 && (ch & 4) != 0)
+//                        || (entity.direction == 8 && (ch & 8) != 0))) {
+//                    entity.go = true;
+//                    System.out.println("true!");
+//
+//                }
+//            }
+//
+//            if ((entity.direction == 1 && (ch & 1) != 0)
+//                    || (entity.direction == 2 && (ch & 2) != 0)
+//                    || (entity.direction == 4 && (ch & 4) != 0)
+//                    || (entity.direction == 8 && (ch & 8) != 0)) {
+//                entity.go = false;
+//                System.out.println("false!");
+//
+//            }
+
+//        }
+//        return point;
+        return point;
     }
 
     public int[][] loadMapFromFile(String filePath) throws IOException {
@@ -56,7 +120,7 @@ public class Map {
                 int col = x / BLOCK_SIZE;
 
 
-                g2d.setColor(new Color(0,72,251));
+                g2d.setColor(new Color(0, 72, 251));
                 g2d.setStroke(new BasicStroke(5));
 //              FILL  WALLS
                 if ((pixels[row][col] == 0)) {
@@ -81,8 +145,8 @@ public class Map {
                             y + BLOCK_SIZE - 1);
                 }
                 if ((pixels[row][col] & 16) != 0) {
-                    g2d.setColor(new Color(255,255,255));
-                    g2d.fillOval(x + BLOCK_SIZE/2, y + BLOCK_SIZE/2, 6, 6);
+                    g2d.setColor(new Color(255, 255, 255));
+                    g2d.fillOval(x + BLOCK_SIZE / 2, y + BLOCK_SIZE / 2, 6, 6);
                 }
             }
         }
