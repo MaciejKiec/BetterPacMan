@@ -23,9 +23,12 @@ public class Game extends JPanel implements ActionListener {
 
 
     private Pacman pacman;
-
     private Map map;
+    private RedGhost red;
 
+    private BlueGhost blue;
+    private PinkGhost pink;
+    private YellowGhost yellow;
 
     Timer timer;
 
@@ -52,6 +55,10 @@ public class Game extends JPanel implements ActionListener {
         map = new Map("lvl/level1.txt");
         dim = new Dimension(map.width*BLOCK_SIZE, map.height*BLOCK_SIZE);
         pacman = new Pacman(dim.width/2,dim.height/2);
+        red = new RedGhost(dim.width/2,dim.height/2);
+        blue = new BlueGhost(dim.width/2,dim.height/2);
+        pink = new PinkGhost(dim.width/2,dim.height/2);
+        yellow = new YellowGhost(dim.width/2,dim.height/2);
         score = 0;
     }
 
@@ -83,11 +90,26 @@ public class Game extends JPanel implements ActionListener {
         else {
             pacman.move();
             pacman.draw(g2d,this);
+            moveGhosts(g2d);
 
         }
 
 //        moveGhosts(g2d);
 //        checkMaze();
+    }
+
+    private void moveGhosts(Graphics2D g2d) {
+        red.control();
+        blue.control();
+        pink.control();
+        yellow.control();
+        red.draw(g2d, this);
+        blue.draw(g2d, this);
+        pink.draw(g2d, this);
+        yellow.draw(g2d, this);
+
+
+
     }
 
     private void death() {

@@ -24,7 +24,7 @@ public class Pacman extends Entity implements Drawing{
 
     }
 
-    private void loadImages() throws IOException {
+    public void loadImages() throws IOException {
         try {
             pacman_up = new ImageIcon("images/pacman_up.gif").getImage();
             pacman_down = new ImageIcon("images/pacman_down.gif").getImage();
@@ -33,50 +33,6 @@ public class Pacman extends Entity implements Drawing{
         }
         catch (Exception e) {
             throw new IOException("Invalid number format in the file.");
-        }
-    }
-    public void changeSpeed(int speed){
-        try {
-            int index = Arrays.binarySearch(VALID_SPEED, speed);
-            if (index < 0) {
-                throw new IllegalArgumentException("Value not found in array");
-            }
-        }  catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void pointUp() {
-        direction=2;
-    }
-    @Override
-    protected void pointRight() {
-        direction=3;
-    }
-    @Override
-    protected void pointLeft() {
-        direction=1;
-    }
-    @Override
-    protected void pointDown() {
-        direction=4;
-    }
-    @Override
-    protected void move(){
-        switch (direction){
-            case 1:
-                x-=SPEED;
-                break;
-            case 2:
-                y-=SPEED;
-                break;
-            case 3:
-                x+=SPEED;
-                break;
-            case 4:
-                y+=SPEED;
-                break;
         }
     }
     public void draw(Graphics2D g2d, JPanel panel) {
@@ -95,5 +51,4 @@ public class Pacman extends Entity implements Drawing{
 
         }
     }
-
 }
