@@ -40,7 +40,6 @@ public class Entity {
     }
 
     protected void move() {
-//        System.out.println(go);
         if (go) {
             switch (direction) {
                 case 1:

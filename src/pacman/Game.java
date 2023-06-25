@@ -13,7 +13,7 @@ public class Game extends JPanel implements ActionListener {
     private boolean inGame = false;
     private boolean dying = false;
 
-    private int lives, score;
+    private int lives = 3, score;
 
 
     private Image heart;
@@ -47,12 +47,12 @@ public class Game extends JPanel implements ActionListener {
     }
 
     private void loadImages() {
-        heart = new ImageIcon("images/live.gif").getImage();
+        heart = new ImageIcon("images/heart.png").getImage();
     }
 
     private void initVariables() {
         map = new Map("lvl/level1.txt");
-        dim = new Dimension(map.width*map.BLOCK_SIZE, map.height*map.BLOCK_SIZE);
+        dim = new Dimension(400, 400);
         pacman = new Pacman(dim.width/2,dim.height/2);
         red = new RedGhost(dim.width/2,dim.height/2);
         blue = new BlueGhost(dim.width/2,dim.height/2);
@@ -115,13 +115,13 @@ public class Game extends JPanel implements ActionListener {
 
     private void drawScore(Graphics2D g) {
         g.setFont(smallFont);
-        int SCREEN_SIZE = map.height * map.BLOCK_SIZE;
+        int SCREEN_SIZE = 15 * map.BLOCK_SIZE;
         g.setColor(new Color(5, 181, 79));
         String s = "Score: " + score;
-        g.drawString(s, SCREEN_SIZE / 2 + 96, SCREEN_SIZE + 27);
+        g.drawString(s, SCREEN_SIZE / 2 + 96, SCREEN_SIZE + 16);
 
         for (int i = 0; i < lives; i++) {
-            g.drawImage(heart, i * 40 + 10, SCREEN_SIZE + 1, this);
+            g.drawImage(heart, i * 28 + 8, SCREEN_SIZE + 1, this);
         }
     }
 

@@ -10,7 +10,7 @@ public class Play extends JFrame {
         Play pac = new Play();
         pac.setVisible(true);
         pac.setTitle("Pacman");
-        pac.setSize(573 ,595+39);
+        pac.setSize(380 ,420);
         pac.setDefaultCloseOperation(EXIT_ON_CLOSE);
         pac.setLocationRelativeTo(null);
     }
