@@ -22,7 +22,7 @@ public class BlueGhost extends Entity implements Drawing {
     }
     public void control(){
         Random random = new Random();
-        direction = random.nextInt(4) + 1;
+        direction = random.nextInt(4) + 1;  
         move();
     }
     public void loadImages() throws IOException {

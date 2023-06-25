@@ -6,13 +6,32 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The Map class represents the game map for Pacman.
+ * It contains methods to load the map from a file, draw the map on the screen,
+ * and perform various checks on the map.
+ */
 public class Map {
-    public int width, height;
+    /** The width of the map in blocks. */
+    public int width;
+
+    /** The height of the map in blocks. */
+    public int height;
+
+    /** The size of each block in pixels. */
     public final int BLOCK_SIZE = 24;
+
+    /** The total number of points in the map. */
     public int points;
+
+    /** The 2D array representing the pixels of the map. */
     public static int[][] pixels;
 
+    /**
+     * Constructs a Map object with the specified file path.
+     *
+     * @param filePath the path to the file containing the map data
+     */
     public Map(String filePath) {
         try {
             pixels = loadMapFromFile(filePath);
@@ -22,7 +41,11 @@ public class Map {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Checks if the map is completely cleared of points.
+     *
+     * @return true if the map is completely cleared, false otherwise
+     */
     public boolean completeCheck() {
 
         for (var j : pixels)
@@ -31,7 +54,23 @@ public class Map {
                     return false;
         return true;
     }
-
+    /**
+     * Checks if the given square on the map is valid.
+     *
+     * @param row the row index of the square
+     * @param col the column index of the square
+     * @return true if the square is valid, false otherwise
+     */
+    private static boolean isSquareValid(int row, int col) {
+        return row >= 0 && row < pixels.length && col >= 0 && col < pixels[0].length;
+    }
+    /**
+     * Checks if the specified entity can move into the given square on the map.
+     * If the square contains a point, it updates the map and sets the 'point' flag to true.
+     *
+     * @param entity the entity to be moved
+     * @return true if the entity can move into the square, false otherwise
+     */
     public boolean checkSquare(Entity entity) {
         boolean point = false;
         int xId, yId, ch, px;
@@ -55,7 +94,13 @@ public class Map {
 
         return point;
     }
-
+    /**
+     * Loads the map data from the specified file.
+     *
+     * @param filePath the path to the file containing the map data
+     * @return a 2D array representing the pixels of the map
+     * @throws IOException if an I/O error occurs while reading the file
+     */
     public int[][] loadMapFromFile(String filePath) throws IOException {
         List<int[]> pixels = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -83,7 +128,12 @@ public class Map {
 
         return array;
     }
-
+    /**
+     * Draws the map on the specified graphics context using the given block size.
+     *
+     * @param g2d        the graphics context to draw on
+     * @param BLOCK_SIZE the size of each block in pixels
+     */
     public void draw(Graphics2D g2d, int BLOCK_SIZE) {
         for (int y = 0; y < height * BLOCK_SIZE; y += BLOCK_SIZE) {
             for (int x = 0; x < width * BLOCK_SIZE; x += BLOCK_SIZE) {
