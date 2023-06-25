@@ -1,5 +1,5 @@
 package pacman;
 
 public interface Ghost {
-    public void control();
+    public void control(Pacman pac);
 }

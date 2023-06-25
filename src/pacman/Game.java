@@ -94,7 +94,8 @@ public class Game extends JPanel implements ActionListener {
     }
 
     private void moveGhosts(Graphics2D g2d) {
-        red.control();
+        red.control(pacman);
+        red.IsDodging();
         pink.control();
         yellow.control();
         red.draw(g2d, this);

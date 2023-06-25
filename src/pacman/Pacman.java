@@ -2,10 +2,8 @@ package pacman;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.ImageObserver;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Pacman extends Entity implements Drawing{
     private Image pacman_up, pacman_down, pacman_left, pacman_right;
@@ -36,19 +34,15 @@ public class Pacman extends Entity implements Drawing{
         }
     }
     public void draw(Graphics2D g2d, JPanel panel) {
-        switch (direction){
-            case 1:
-                g2d.drawImage(pacman_left, x, y, panel);
-                break;
-            case 2:
-                g2d.drawImage(pacman_up, x, y,  panel);
-                break;
-            case 3:
-                g2d.drawImage(pacman_right, x, y, panel);
-                break;
-            case 4:
-                g2d.drawImage(pacman_down, x, y, panel);
-
+        switch (direction) {
+            case 1 -> g2d.drawImage(pacman_left, x, y, panel);
+            case 2 -> g2d.drawImage(pacman_up, x, y, panel);
+            case 3 -> g2d.drawImage(pacman_right, x, y, panel);
+            case 4 -> g2d.drawImage(pacman_down, x, y, panel);
         }
     }
+//    public static int getX(){
+//    }
+//    public static int getY(){
+//    }
 }
