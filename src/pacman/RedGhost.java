@@ -25,6 +25,7 @@ public class RedGhost extends Entity implements Drawing, Ghost{
         Random random = new Random();
         direction = random.nextInt(4) + 1;
         move();
+
     }
     public void loadImages() throws IOException {
         try {

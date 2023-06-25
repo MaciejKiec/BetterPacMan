@@ -24,8 +24,6 @@ public class Game extends JPanel implements ActionListener {
     private Pacman pacman;
     private Map map;
     private RedGhost red;
-
-    private BlueGhost blue;
     private PinkGhost pink;
     private YellowGhost yellow;
 
@@ -53,9 +51,8 @@ public class Game extends JPanel implements ActionListener {
     private void initVariables() {
         map = new Map("lvl/level1.txt");
         dim = new Dimension(400, 400);
-        pacman = new Pacman(dim.width/2,dim.height/2);
+        pacman = new Pacman(300,300);
         red = new RedGhost(dim.width/2,dim.height/2);
-        blue = new BlueGhost(dim.width/2,dim.height/2);
         pink = new PinkGhost(dim.width/2,dim.height/2);
         yellow = new YellowGhost(dim.width/2,dim.height/2);
         score = 0;
@@ -98,19 +95,43 @@ public class Game extends JPanel implements ActionListener {
 
     private void moveGhosts(Graphics2D g2d) {
         red.control();
-        blue.control();
         pink.control();
         yellow.control();
         red.draw(g2d, this);
-        blue.draw(g2d, this);
         pink.draw(g2d, this);
         yellow.draw(g2d, this);
+        if (pacman.x > (red.x - 12) && pacman.x < (red.x + 12)
+                && pacman.y > (red.y - 12) && pacman.y < (red.y + 12)
+                && inGame) {
+            dying = true;
+        }
+        if (pacman.x > (pink.x - 12) && pacman.x < (pink.x + 12)
+                && pacman.y > (pink.y - 12) && pacman.y < (pink.y + 12)
+                && inGame) {
+            dying = true;
+        }
+        if (pacman.x > (yellow.x - 12) && pacman.x < (yellow.x + 12)
+                && pacman.y > (yellow.y - 12) && pacman.y < (yellow.y + 12)
+                && inGame) {
+            dying = true;
+        }
     }
     private void checkMaze(){
         if (map.checkSquare(pacman))
             score +=1;
     }
     private void death() {
+        lives--;
+        if(lives == 0) {
+            inGame = false;
+        }
+        map = new Map("lvl/level1.txt");
+        dim = new Dimension(400, 400);
+        pacman = new Pacman(300,300);
+        red = new RedGhost(dim.width/2,dim.height/2);
+        pink = new PinkGhost(dim.width/2,dim.height/2);
+        yellow = new YellowGhost(dim.width/2,dim.height/2);
+        dying = false;
     }
 
     private void drawScore(Graphics2D g) {
@@ -130,6 +151,7 @@ public class Game extends JPanel implements ActionListener {
             @Override
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
+                int temp = 0;
                 if (inGame) {
                     switch (key) {
                         case KeyEvent.VK_LEFT:
