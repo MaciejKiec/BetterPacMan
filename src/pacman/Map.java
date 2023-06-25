@@ -11,7 +11,7 @@ public class Map {
     public int width, height;
     public final int BLOCK_SIZE = 24;
     public int points;
-    public int[][] pixels;
+    public static int[][] pixels;
 
     public Map(String filePath) {
         try {
