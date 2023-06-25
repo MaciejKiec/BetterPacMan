@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 
-public class Entity {
+public class Entity{
     protected int x, y;
     protected int direction;
     protected Boolean go = true;

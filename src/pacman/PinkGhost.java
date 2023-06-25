@@ -7,13 +7,14 @@ import java.util.Random;
 
 public class PinkGhost extends Entity implements Drawing {
     private Image ghost_up, ghost_down, ghost_left, ghost_right;
+    int counter = 0;
 
     public PinkGhost(int start_x, int start_y){
         try {
             x = start_x;
             y = start_y;
             direction = 1;
-            SPEED = 3;
+            SPEED = 2;
             loadImages();
         } catch (IOException e) {
             e.printStackTrace();
@@ -21,8 +22,21 @@ public class PinkGhost extends Entity implements Drawing {
 
     }
     public void control(){
+        //unpredictable
+        counter++;
+        int xId = (int) x / 24;
+        int yId = (int) y / 24;
+        int ch = Map.pixels[yId][xId];
         Random random = new Random();
-        direction = random.nextInt(4) + 1;
+        if(counter % 60 == 0){
+            direction = random.nextInt(4) + 1;
+        }
+        while(!((direction != 1 || (ch & 1) == 0)
+                && (direction != 3 || (ch & 4) == 0)
+                && (direction != 2 || (ch & 2) == 0)
+                && (direction != 4 || (ch & 8) == 0))){
+            direction = random.nextInt(4) + 1;
+        }
         move();
     }
     public void loadImages() throws IOException {

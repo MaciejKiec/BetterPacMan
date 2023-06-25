@@ -13,7 +13,7 @@ public class YellowGhost  extends Entity implements Drawing{
             x = start_x;
             y = start_y;
             direction = 1;
-            SPEED = 3;
+            SPEED = 2;
             loadImages();
         } catch (IOException e) {
             e.printStackTrace();
