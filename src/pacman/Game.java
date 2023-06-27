@@ -6,22 +6,30 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * The Game class represents the main game panel for the Pacman game.
  * It extends JPanel and implements ActionListener.
  */
 public class Game extends JPanel implements ActionListener {
     private Dimension dim;
-    private final Font smallFont = new Font("Arial", Font.BOLD,16);
-    private boolean inGame = false;
-    private boolean dying = false;
+    private final Font smallFont = new Font("Arial", Font.BOLD, 16);
+    private boolean inGame;
+    private boolean dying;
+//    private boolean showScore;
 
-    private int lives = 3, score;
-
+    private int lives, score;
+//    private boolean gameOver;
+    private JButton restartButton;
+//    private JButton scoresButton;
+//    private JLabel scoresLabel;
 
     private Image heart;
-
-
 
 
     private Pacman pacman;
@@ -39,40 +47,105 @@ public class Game extends JPanel implements ActionListener {
      */
     public Game() {
         loadImages();
-        initVariables();
-        addKeyListener(new TAdapter());
-        setFocusable(true);
-        initGame();
+        dim = new Dimension(400, 400);
         timer = new Timer(100, this);
-        timer.start();
+
+        init();
+        restartGame();
+        addKeyListener(new TAdapter());
     }
+
+    private void init() {
+        this.setBackground(Color.black);
+        this.setFocusable(true);
+        this.setLayout(null);
+
+        initializeRestartButton();
+//        initializeScoresButton();
+//        initializeScoresLabel();
+
+        this.add(restartButton);
+//        this.add(scoresButton);
+//        this.add(scoresLabel);
+    }
+
+    private void setButtonVisibility(boolean visable){
+
+        restartButton.setVisible(visable);
+//        scoresButton.setVisible(visable);
+    }
+
+    private void initializeRestartButton() {
+        restartButton = new JButton("Restart");
+        restartButton.setBounds(380 / 2 - 100, 380 / 2 + 200, 100, 50);
+        restartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                restartGame();
+            }
+        });
+        restartButton.setVisible(false);
+    }
+
+//    private void initializeScoresButton() {
+//        scoresButton = new JButton("Show Scores");
+//        scoresButton.setBounds(380 / 2 + 10, 420 / 2 + 200, 120, 50);
+//        scoresButton.addActionListener(e -> {
+//            showScore = true;
+//            repaint();
+////            showScores();
+//            restartButton.setVisible(false);
+//            scoresButton.setVisible(false);
+//        });
+//        scoresButton.setVisible(false);
+//    }
+//
+//    private void initializeScoresLabel() {
+//        scoresLabel = new JLabel();
+//        scoresLabel.setBounds(380 / 2 - 200, 100, 400, 400);
+//        scoresLabel.setForeground(Color.white);
+//        scoresLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+//        scoresLabel.setVerticalAlignment(SwingConstants.TOP);
+//        scoresLabel.setHorizontalAlignment(SwingConstants.LEFT);
+//        scoresLabel.setVisible(false);
+//    }
+
     /**
-     * Initializes the game by setting the inGame flag to true.
+     * Initializes the variables required for the game.
+     * Creates the map, sets the dimensions, initializes the characters (pacman, ghosts),
+     * and sets the initial score and lives.
      */
-    private void initGame() {
-        inGame = true;
+
+    private void restartLevel() {
+        map = new Map("lvl/level1.txt");
+        pacman = new Pacman(300, 300);
+        red = new RedGhost(dim.width / 2, dim.height / 2);
+        pink = new PinkGhost(dim.width / 2, dim.height / 2);
+        yellow = new YellowGhost(dim.width / 2, dim.height / 2);
     }
+
+
+    private void restartGame() {
+            restartLevel();
+            score = 0;
+            lives = 3;
+//            gameOver = false;
+            inGame = true;
+//            showScore = false;
+            dying = false;
+
+            timer.restart();
+            timer.start();
+    }
+
     /**
      * Loads the required images for the game.
      */
     private void loadImages() {
         heart = new ImageIcon("images/heart.png").getImage();
     }
-    /**
-     * Initializes the variables required for the game.
-     * Creates the map, sets the dimensions, initializes the characters (pacman, ghosts),
-     * and sets the initial score and lives.
-     */
-    private void initVariables() {
-        map = new Map("lvl/level1.txt");
-        dim = new Dimension(400, 400);
-        pacman = new Pacman(300,300);
-        red = new RedGhost(dim.width/2,dim.height/2);
-        pink = new PinkGhost(dim.width/2,dim.height/2);
-        yellow = new YellowGhost(dim.width/2,dim.height/2);
-        score = 0;
-        lives = 3;
-    }
+
+
     /**
      * Paints the game panel.
      *
@@ -82,22 +155,32 @@ public class Game extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.black);
-        g2d.fillRect(0, 0, dim.width+5, dim.height+40);
+        g2d.fillRect(0, 0, dim.width + 5, dim.height + 40);
 
-        map.draw(g2d, map.BLOCK_SIZE);
-        drawScore(g2d);
-
-        if (inGame) {
+        if (inGame){
+            g2d.setColor(Color.black);
+            map.draw(g2d, map.BLOCK_SIZE);
+            drawScore(g2d);
             playGame(g2d);
         }
-//        else {
-//            showIntroScreen(g2d);
-//        }
+        else {
+                g2d.setColor(Color.yellow);
+                g2d.setFont(new Font("Serif", Font.BOLD, 20));
+                FontMetrics metrics1 = getFontMetrics(g2d.getFont());
+                String score_string = "Score: " + score;
+                g2d.drawString(score_string, (380 - metrics1.stringWidth(score_string))/2 , 380 / 2 + 30);
+
+                g2d.setColor(Color.yellow);
+                g2d.setFont(new Font("Serif", Font.BOLD, 30));
+                FontMetrics metrics = getFontMetrics(g2d.getFont());
+                String game_over = "Pac-Man is dead.";
+                g2d.drawString(game_over, (380 - metrics.stringWidth(game_over)) / 2, 380 / 2);
+        }
 
         Toolkit.getDefaultToolkit().sync();
         g2d.dispose();
     }
+
     /**
      * Plays the game by updating the game state, moving characters,
      * and checking for collisions.
@@ -106,16 +189,16 @@ public class Game extends JPanel implements ActionListener {
      */
     private void playGame(Graphics2D g2d) {
         if (dying) {
-            death();
-        }
-        else {
+            death(g2d);
+        } else {
             pacman.move();
-            pacman.draw(g2d,this);
+            pacman.draw(g2d, this);
             moveGhosts(g2d);
             checkMaze();
         }
 
     }
+
     /**
      * Moves the ghosts and checks for collisions with the pacman.
      *
@@ -145,31 +228,42 @@ public class Game extends JPanel implements ActionListener {
             dying = true;
         }
     }
+
     /**
      * Checks if the pacman has collided with a maze square and updates the score.
      */
-    private void checkMaze(){
+    private void checkMaze() {
         if (map.checkSquare(pacman))
-            score +=1;
+            score += 1;
+        if (map.completeCheck()) {
+            map = new Map("lvl/level1.txt");
+            dim = new Dimension(400, 400);
+            pacman = new Pacman(300, 300);
+            red = new RedGhost(dim.width / 2, dim.height / 2);
+            pink = new PinkGhost(dim.width / 2, dim.height / 2);
+            yellow = new YellowGhost(dim.width / 2, dim.height / 2);
+        }
     }
+
     /**
      * Handles the death of the pacman.
      * Decreases the number of lives, checks if the game is over,
      * resets the game variables, and stops the dying animation.
      */
-    private void death() {
+    private void death(Graphics2D g2d) {
         lives--;
-        if(lives == 0) {
+        if (lives == 0) {
             inGame = false;
+//            showScore = true;
+//            gameOver = true;
+            setButtonVisibility(true); // Add this line
         }
-        map = new Map("lvl/level1.txt");
-        dim = new Dimension(400, 400);
-        pacman = new Pacman(300,300);
-        red = new RedGhost(dim.width/2,dim.height/2);
-        pink = new PinkGhost(dim.width/2,dim.height/2);
-        yellow = new YellowGhost(dim.width/2,dim.height/2);
-        dying = false;
+        else{
+            restartLevel();
+            dying = false;
+        }
     }
+
     /**
      * Draws the score and remaining lives on the game panel.
      *
@@ -221,6 +315,7 @@ public class Game extends JPanel implements ActionListener {
             }
         }
     }
+
     /**
      * Handles the action performed event for the game.
      * Repaints the game panel.
@@ -229,7 +324,7 @@ public class Game extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        repaint();
+            repaint();
     }
 
 }
