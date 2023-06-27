@@ -10,7 +10,7 @@ import java.io.IOException;
 
  * It extends the Entity class and implements the Drawing interface.
  */
-public class Pacman extends Entity implements Drawing{
+public class Pacman extends Entity implements Drawing, Runnable{
     private Image pacman_up, pacman_down, pacman_left, pacman_right;
     /**
      * Constructs a Pacman object with the specified starting coordinates.
@@ -47,6 +47,13 @@ public class Pacman extends Entity implements Drawing{
             throw new IOException("Invalid number format in the file.");
         }
     }
+
+    @Override
+    public void run(){
+
+    }
+
+
     /**
      * Draws Pacman on the screen based on its current direction.
      *
