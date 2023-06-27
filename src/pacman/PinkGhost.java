@@ -32,6 +32,7 @@ public class PinkGhost extends Entity implements Drawing, Runnable {
 
     @Override
     public void run(){
+        move();
     }
 
     /**

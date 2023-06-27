@@ -37,6 +37,7 @@ public class RedGhost extends Entity implements Drawing, Ghost, Runnable {
     }
     @Override
     public void run(){
+        move();
     }
 
     /**

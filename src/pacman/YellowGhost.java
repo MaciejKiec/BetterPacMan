@@ -33,7 +33,7 @@ public class YellowGhost  extends Entity implements Drawing, Runnable{
 
     @Override
     public void run(){
-
+        move();
     }
     /**
      * Controls the movement of the YellowGhost.

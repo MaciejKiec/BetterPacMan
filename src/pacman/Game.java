@@ -120,6 +120,7 @@ public class Game extends JPanel implements ActionListener {
             pacman.draw(g2d,this);
             moveGhosts(g2d);
             checkMaze();
+            //System.out.println(java.lang.Thread.activeCount());
         }
 
     }
