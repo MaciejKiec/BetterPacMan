@@ -74,7 +74,9 @@ public class Game extends JPanel implements ActionListener {
         pink = new PinkGhost(dim.width/2,dim.height/2);
         yellow = new YellowGhost(dim.width/2,dim.height/2);
         threadPool.runTask(pacman);
+        threadPool.runTask(red);
         threadPool.runTask(yellow);
+        threadPool.runTask(pink);
         score = 0;
         lives = 3;
     }

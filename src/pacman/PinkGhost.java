@@ -9,7 +9,7 @@ import java.util.Random;
  * It extends the Entity class and implements the Drawing interface.
  * Pink ghosts are unpredictable and move randomly on the game board.
  */
-public class PinkGhost extends Entity implements Drawing {
+public class PinkGhost extends Entity implements Drawing, Runnable {
     private Image ghost_up, ghost_down, ghost_left, ghost_right;
     int counter = 0;
     /**
@@ -28,8 +28,12 @@ public class PinkGhost extends Entity implements Drawing {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
+    @Override
+    public void run(){
+    }
+
     /**
      * Controls the movement of the pink ghost.
      * Pink ghosts move randomly and change direction unpredictably.

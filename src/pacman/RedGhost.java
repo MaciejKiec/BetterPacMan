@@ -11,7 +11,7 @@ import java.util.*;
  * It implements the Drawing and Ghost interfaces.
  * The red ghost chases and tries to capture the Pacman.
  */
-public class RedGhost extends Entity implements Drawing, Ghost {
+public class RedGhost extends Entity implements Drawing, Ghost, Runnable {
     private Image ghost_up;     // Image representing the ghost facing up
     private Image ghost_down;   // Image representing the ghost facing down
     private Image ghost_left;   // Image representing the ghost facing left
@@ -34,8 +34,11 @@ public class RedGhost extends Entity implements Drawing, Ghost {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+    @Override
+    public void run(){
+    }
+
     /**
      * Checks if the ghost is dodging any obstacles in its current direction.
      * Updates the dodge flag accordingly.
