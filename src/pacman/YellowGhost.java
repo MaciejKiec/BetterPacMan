@@ -10,7 +10,7 @@ import java.util.Random;
  * This ghost walks randomly on the map and has four different directions: up, down, left, and right.
  * It loads images for each direction and can be drawn on a panel using the draw method.
  */
-public class YellowGhost  extends Entity implements Drawing{
+public class YellowGhost  extends Entity implements Drawing, Runnable{
     private Image ghost_up, ghost_down, ghost_left, ghost_right;
     /**
      * Constructs a YellowGhost object with the specified starting position.
@@ -28,6 +28,11 @@ public class YellowGhost  extends Entity implements Drawing{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void run(){
 
     }
     /**

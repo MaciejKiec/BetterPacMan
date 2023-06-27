@@ -70,10 +70,11 @@ public class Game extends JPanel implements ActionListener {
         map = new Map("lvl/level1.txt");
         dim = new Dimension(400, 400);
         pacman = new Pacman(300,300);
-        threadPool.runTask(pacman);
         red = new RedGhost(dim.width/2,dim.height/2);
         pink = new PinkGhost(dim.width/2,dim.height/2);
         yellow = new YellowGhost(dim.width/2,dim.height/2);
+        threadPool.runTask(pacman);
+        threadPool.runTask(yellow);
         score = 0;
         lives = 3;
     }
